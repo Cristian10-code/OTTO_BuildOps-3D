@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildOps 3D - Manual Interactivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            padding: 32px 0 80px;
+        }
+
+        .slide-container {
+            height: auto;
+            min-height: 720px;
+            width: min(1280px, calc(100vw - 56px));
+        }
+
+        .manual-nav {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 120;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            max-width: 520px;
+        }
+
+        .manual-nav a {
+            background-color: rgba(15, 23, 42, 0.92);
+            border: 1px solid #334155;
+            border-radius: 999px;
+            color: #cbd5e1;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            padding: 10px 14px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .manual-nav a:hover {
+            border-color: #f97316;
+            color: #f8fafc;
+            transform: translateY(-1px);
+        }
+
+        .manual-hero {
+            text-align: center;
+        }
+
+        .manual-hero .subtitle {
+            max-width: 900px;
+        }
+
+        .eyebrow {
+            color: #38bdf8;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+        }
+
+        .module-grid,
+        .manual-stack,
+        .detail-grid,
+        .doc-grid {
+            align-items: stretch;
+            display: grid;
+            gap: 28px;
+            width: 100%;
+        }
+
+        .module-grid {
+            grid-template-columns: 1.05fr 0.95fr;
+        }
+
+        .manual-stack,
+        .detail-grid,
+        .doc-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .manual-card,
+        .info-card,
+        .doc-card,
+        .stat-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
+        }
+
+        .manual-card,
+        .doc-card,
+        .stat-card {
+            padding: 28px;
+        }
+
+        .info-card {
+            padding: 22px 24px;
+        }
+
+        .manual-card h3,
+        .info-card h3,
+        .doc-card h3,
+        .stat-card h3 {
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+
+        .info-stack {
+            display: grid;
+            gap: 18px;
+        }
+
+        .manual-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .manual-list li {
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .manual-list li + li {
+            margin-top: 14px;
+        }
+
+        .manual-list li::before {
+            color: #f97316;
+            content: '\f061';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            left: 0;
+            position: absolute;
+            top: 1px;
+        }
+
+        .field-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 24px 0;
+        }
+
+        .field-tag {
+            background-color: rgba(15, 23, 42, 0.9);
+            border: 1px solid #334155;
+            border-radius: 999px;
+            color: #e2e8f0;
+            display: inline-flex;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            padding: 9px 14px;
+        }
+
+        .stat-grid {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: 24px;
+        }
+
+        .module-grid .image-wrapper,
+        .manual-stack .image-wrapper,
+        .detail-grid .image-wrapper,
+        .doc-grid .image-wrapper {
+            min-height: 420px;
+        }
+
+        @media (max-width: 1100px) {
+            .manual-nav {
+                left: 24px;
+                max-width: none;
+                right: 24px;
+            }
+
+            .slide-container {
+                padding: 88px 28px 40px;
+                width: calc(100vw - 32px);
+            }
+
+            .module-grid,
+            .manual-stack,
+            .detail-grid,
+            .doc-grid,
+            .two-column,
+            .tiled-content,
+            .stat-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .tiled-content {
+                gap: 24px;
+            }
+
+            .slide-container .slide-title {
+                font-size: 34px;
+            }
+
+            .title-layout .title-logo {
+                height: 72px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            body {
+                gap: 24px;
+                padding-top: 86px;
+            }
+
+            .manual-nav {
+                backdrop-filter: blur(12px);
+                background-color: rgba(2, 6, 23, 0.82);
+                border-bottom: 1px solid #1e293b;
+                justify-content: flex-start;
+                left: 0;
+                padding: 12px 14px;
+                right: 0;
+                top: 0;
+            }
+
+            .manual-nav a {
+                font-size: 11px;
+                padding: 8px 12px;
+            }
+
+            .slide-container {
+                min-height: auto;
+                padding: 32px 20px;
+                width: calc(100vw - 20px);
+            }
+
+            .slide-container h1 {
+                font-size: 48px;
+            }
+
+            .slide-container .subtitle {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 
+<nav class="manual-nav" aria-label="Navegación del manual">
+    <a href="#slide1">Inicio</a>
+    <a href="#slide2">Página Inicial</a>
+    <a href="#slide3">Visor</a>
+    <a href="#slide4">Sensores</a>
+    <a href="#slide5">Mantenimiento</a>
+    <a href="#slide6">Equipos</a>
+    <a href="#slide7">Detalle</a>
+    <a href="#slide8">Documentos</a>
+    <a href="#slide9">Settings</a>
+    <a href="#slide10">Dashboard</a>
+</nav> -->
+
+<div class="slide-container manual-hero" id="slide1">
+    <div class="title-layout">
+        <p class="eyebrow">Manual de funcionalidad</p>
+        <h1 class="title-brand">
+            <!-- <img class="title-logo" src="05. IMAGOTIPO BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'"> -->
+            <span>BuildOps 3D</span>
+        </h1>
+        <p class="subtitle">Recorrido funcional de la herramienta desde la página inicial del proyecto hasta la gestión de equipos, documentación, configuración y dashboard.</p>
+    </div>
+
+    <div class="tiled-content">
+        <div class="tile">
+            <div class="icon"><i class="fa-solid fa-house"></i></div>
+            <h3>Página Inicial</h3>
+            <p>Ingreso al proyecto desde la vista principal de la aplicación.</p>
+        </div>
+        <div class="tile">
+            <div class="icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            <h3>Operación</h3>
+            <p>Acceso a paneles de sensores IoT y mantenimiento de equipos dentro del visor.</p>
+        </div>
+        <div class="tile">
+            <div class="icon"><i class="fa-solid fa-folder-open"></i></div>
+            <h3>Hoja de Vida</h3>
+            <p>Información general, condition index, documentación y mantenimiento de cada equipo.</p>
+        </div>
+    </div>
+
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">01. Página Inicial</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Ingreso al proyecto</h3>
+                <p>Esta es la página inicial de la herramienta. Desde aquí se visualizan los proyectos disponibles y se ingresa al proyecto correspondiente.</p>
+                <ul>
+                    <li>La imagen 1 corresponde a la vista inicial de acceso.</li>
+                    <li>Desde esta pantalla comienza el recorrido funcional del usuario.</li>
+                    <li>Al entrar al proyecto se habilita el visor principal con sus módulos operativos.</li>
+                </ul>
+            </div>
+            <div class="image-wrapper">
+                <img src="Imagen1.jpg" alt="Página inicial del proyecto" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </div>
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">02. Acceso a Sensores y Mantenimiento</h2>
+    <div class="content-area">
+        <div class="module-grid">
+            <div class="image-wrapper">
+                <img src="Imagen2.jpg" alt="Botones del visor para sensores y mantenimiento" onerror="this.style.display='none'">
+            </div>
+            <div class="manual-card">
+                <h3>Botones a la derecha del visor</h3>
+                <p>Una vez se ingresa al proyecto, en la parte derecha aparecen dos botones principales que llevan a los paneles de operación mostrados en la imagen 2.</p>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <h3><i class="fa-solid fa-temperature-three-quarters"></i>Sensores</h3>
+                        <p>El primer botón corresponde al panel de sensores IoT.</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3><i class="fa-solid fa-screwdriver-wrench"></i>Mantenimiento</h3>
+                        <p>El segundo botón abre el panel de mantenimiento de equipos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">03. Panel de Sensores IoT</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Panel de sensores</h3>
+                <p>En la imagen 3 se observa el panel de los sensores IoT. Desde esta vista se consulta la información asociada a los dispositivos conectados dentro del proyecto.</p>
+                <ul>
+                    <li>Permite revisar la información de los sensores dentro del visor.</li>
+                    <li>Hace parte del flujo operativo accesible desde el botón lateral del proyecto.</li>
+                    <li>Corresponde al primer botón mostrado en la imagen 2.</li>
+                </ul>
+            </div>
+            <div class="image-wrapper">
+                <img src="Imagen3.jpg" alt="Panel de sensores IoT" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </div>
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">04. Panel de Mantenimiento de Equipos</h2>
+    <div class="content-area">
+        <div class="manual-stack">
+            <div class="image-wrapper">
+                <img src="Imagen4.jpg" alt="Panel de mantenimiento por tarjetas" onerror="this.style.display='none'">
+            </div>
+            <div class="manual-card">
+                <h3>Cards de equipos</h3>
+                <p>En la imagen 4 se ve el panel de mantenimiento de equipos. Dentro de este panel se muestran cards creadas a partir del botón <strong>+ Add Equipment</strong>.</p>
+                <ul class="manual-list">
+                    <li>Cada card representa un equipo registrado dentro de la aplicación.</li>
+                    <li>Desde este panel se accede al detalle del activo.</li>
+                    <li>Corresponde al segundo botón ubicado a la derecha del visor.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">05. Creación de Equipos con + Add Equipment</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Datos del equipo</h3>
+                <p>Como se ve en la imagen 5, al usar <strong>+ Add Equipment</strong> el usuario ingresa los datos del equipo que quedarán asociados dentro del visor.</p>
+                <div class="field-cloud">
+                    <span class="field-tag">Título</span>
+                    <span class="field-tag">Fabricante</span>
+                    <span class="field-tag">Estado</span>
+                    <span class="field-tag">Asignado a</span>
+                    <span class="field-tag">Disciplina</span>
+                    <span class="field-tag">Element (dbId)</span>
+                </div>
+                <p>El campo <strong>Element (dbId)</strong> define el elemento al que va a estar asociada la información dentro del visor. También pueden ingresarse otros datos del equipo.</p>
+            </div>
+            <div class="image-wrapper">
+                <img src="Imagen5.jpg" alt="Formulario para crear equipos" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </div>
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">06. Ventana Emergente del Equipo</h2>
+    <div class="content-area">
+        <div class="detail-grid">
+            <div class="image-wrapper">
+                <img src="Imagen6.jpg" alt="Ventana emergente con información del equipo" onerror="this.style.display='none'">
+            </div>
+            <div class="info-stack">
+                <div class="info-card">
+                    <h3>General Info</h3>
+                    <p>Información suministrada en la creación del equipo en la aplicación.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Condition Index</h3>
+                    <p>Depreciación del equipo a partir de su fecha de comisionamiento o fecha de arranque del equipo.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Documentation</h3>
+                    <p>Es aquí donde se guardan todos los documentos del equipo y su hoja de vida.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Maintenance</h3>
+                    <p>En esta sección se programan los mantenimientos y se avisa dentro del visor si el equipo está próximo a cumplirse su siguiente mantenimiento correctivo o preventivo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">07. Documentation y Hoja de Vida del Equipo</h2>
+    <div class="content-area">
+        <div class="doc-grid">
+            <div class="doc-card">
+                <h3>Documentos del equipo</h3>
+                <p>Como se observa en la imagen 7, en <strong>Documentation</strong> se almacenan los documentos asociados al equipo.</p>
+                <ul class="manual-list">
+                    <li>Ficha Técnica.</li>
+                    <li>Diagram Unifilar.</li>
+                    <li>Certificado de Garantía.</li>
+                    <li>Manual de Operación.</li>
+                    <li>Otros documentos de la hoja de vida del equipo.</li>
+                </ul>
+            </div>
+            <div class="image-wrapper">
+                <img src="Imagen7.jpg" alt="Panel de documentación del equipo" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </div>
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">08. Configuración desde Settings</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Disciplinas y subdisciplinas</h3>
+                <p>Desde el botón de <strong>Settings</strong> la aplicación puede configurarse para crear disciplinas y subdisciplinas según las necesidades del proyecto.</p>
+            </div>
+            <div>
+                <h3>Colores de las cards</h3>
+                <p>También es posible cambiar los colores de las cards para ajustar la visualización del panel de mantenimiento.</p>
+            </div>
+        </div>
+    </div>
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">09. Dashboard del Proyecto</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Estado general de los activos</h3>
+                <p>El dashboard indica el estado general de los activos del proyecto para tener una vista consolidada de la operación.</p>
+            </div>
+            <div>
+                <h3>Mantenimientos realizados</h3>
+                <p>También muestra los tipos de mantenimientos que se le han realizado a los equipos y demás información general del proyecto.</p>
+            </div>
+        </div>
+    </div>
+    <img class="watermark" src="04. MONOGRAMA BLANCO AREA RESERVA.png" alt="OTTO" onerror="this.style.display='none'">
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
